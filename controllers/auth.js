@@ -14,29 +14,25 @@ const register = async (req, res) => {
   }
   try {
     //check if your with same email exists
-    let user = await findOne({ email: req.body.email });
+    const { name, email, password } = req.body;
+    let user = await User.findOne({ email: req.body.email });
     if (user) {
       return res
         .status(400)
         .json({ success, errors: [{ msg: "Email Already Exists" }] });
     }
     //hasing the user's given password then sending data go MongoDB
-    let password = await hash(req.body.password, 12);
+    let hashed = await hash(req.body.password, 12);
     user = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password,
+      name,
+      email,
+      password: hashed,
     });
-
-    const newUser = {
-      user: {
-        id: user.id,
-      },
-    };
     //generating token for user using JWT
-    const authtoken = jwt.sign(newUser, config.SECRECT_KEY);
+    const authtoken = await user.getAuthToken();
+    const data = { name: user.name, email: user.email };
     success = true;
-    res.json({ success, authtoken });
+    res.json({ success, authtoken, user: data });
   } catch (e) {
     console.error(e.message);
     res.status(500).send("An Error Occur");
@@ -72,16 +68,11 @@ const login = async (req, res) => {
       });
     }
 
-    const newUser = {
-      user: {
-        id: user.id,
-      },
-    };
-
     //generating auth token
-    const authtoken = jwt.sign(newUser, config.SECRECT_KEY);
+    const authtoken = await user.getAuthToken();
+    const data = { name: user.name, email: user.email };
     success = true;
-    res.json({ success, authtoken, user });
+    res.json({ success, authtoken, user: data });
   } catch (e) {
     console.error(e.message);
     res.status(500).send("An Error Occur");
