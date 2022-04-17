@@ -15,7 +15,7 @@ const register = async (req, res) => {
   //if any error occur show error
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return sendResponse(res, 400, { success, errors: errors.array() });
+    return sendResponse(res, 400, { success, error: errors.array() });
   }
   try {
     //check if your with same email exists
@@ -25,6 +25,7 @@ const register = async (req, res) => {
       return badRequest(res, { success, error: "User already exists" });
     }
     //creating user
+    console.log(req);
     user = await User.create({
       name,
       email,
@@ -50,7 +51,7 @@ const login = async (req, res) => {
   //if any error occur show error
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return sendResponse(res, 400, { success, errors: errors.array() });
+    return sendResponse(res, 400, { success, error: errors.array() });
   }
   //destruturing email & password from body
   const { email, password } = req.body;
@@ -70,7 +71,7 @@ const login = async (req, res) => {
     if (!passwordCompare) {
       return sendResponse(res, 400, {
         success,
-        errors: [{ msg: "Incorrect Password" }],
+        error: [{ msg: "Incorrect Password" }],
       });
     }
     //generating auth token
