@@ -3,10 +3,18 @@ const { Schema, model } = mongoose;
 import config from "../config/index.js";
 import jwt from "jsonwebtoken";
 // createing a schema to add user data in db
+
+const userImage =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png";
+
 const UserSchema = new Schema({
   name: {
     type: String,
     required: true,
+  },
+  image: {
+    type: String,
+    default: userImage,
   },
   email: {
     type: String,

@@ -32,7 +32,12 @@ const register = async (req, res) => {
     });
     //generating token for user using JWT
     const authtoken = await user.getAuthToken();
-    const data = { _id: user._id, name: user.name, email: user.email };
+    const data = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+    };
     success = true;
     return sendResponse(res, 200, { success, authtoken, data });
   } catch (error) {
@@ -70,7 +75,12 @@ const login = async (req, res) => {
     }
     //generating auth token
     const authtoken = await user.getAuthToken();
-    const data = { _id: user._id, name: user.name, email: user.email };
+    const data = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+    };
     success = true;
     return sendResponse(res, 200, { success, authtoken, data });
   } catch (error) {
