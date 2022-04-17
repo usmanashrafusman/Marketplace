@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import config from "../config.js";
 import User from "../models/User.js";
 // middleware to get logged in user data
-const fetchUser = (req, res, next) => {
+const authenticate = (req, res, next) => {
   //getting JWT token from header
   const token = req.header("token");
   if (!token) {
@@ -21,4 +21,4 @@ const fetchUser = (req, res, next) => {
   }
 };
 
-export default fetchUser;
+export default authenticate;

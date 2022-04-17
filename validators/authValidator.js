@@ -9,7 +9,7 @@ const signUpValidator = [
 ];
 
 const loginValidator = [
-  body("password", "Password can't be blank").exists(),
+  body("password", "Incorrect Password").isLength({ min: 3 }),
   body("email", "Enter a valid email").isEmail(),
 ];
 

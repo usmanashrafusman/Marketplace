@@ -1,41 +1,42 @@
 import { validationResult } from "express-validator";
-import { hash, compare } from "bcrypt";
-import jwt from "jsonwebtoken";
-
+import { compare } from "bcrypt";
+//UserModel
 import User from "../models/User.js";
-import config from "../config/index.js";
+//Utils Fucntions
+import {
+  sendResponse,
+  hashPassword,
+  badRequest,
+  serverError,
+} from "../utils/index.js";
 
 const register = async (req, res) => {
   let success = false;
   //if any error occur show error
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ success, errors: errors.array() });
+    return sendResponse(res, 400, { success, errors: errors.array() });
   }
   try {
     //check if your with same email exists
     const { name, email, password } = req.body;
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res
-        .status(400)
-        .json({ success, errors: [{ msg: "Email Already Exists" }] });
+      return badRequest(res, { success, error: "User already exists" });
     }
-    //hasing the user's given password then sending data go MongoDB
-    let hashed = await hash(req.body.password, 12);
+    //creating user
     user = await User.create({
       name,
       email,
-      password: hashed,
+      password: await hashPassword(password),
     });
     //generating token for user using JWT
     const authtoken = await user.getAuthToken();
-    const data = { name: user.name, email: user.email };
+    const data = { _id: user._id, name: user.name, email: user.email };
     success = true;
-    res.json({ success, authtoken, user: data });
-  } catch (e) {
-    console.error(e.message);
-    res.status(500).send("An Error Occur");
+    return sendResponse(res, 200, { success, authtoken, data });
+  } catch (error) {
+    return serverError(error, res);
   }
 };
 
@@ -44,7 +45,7 @@ const login = async (req, res) => {
   //if any error occur show error
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ success, errors: errors.array() });
+    return sendResponse(res, 400, { success, errors: errors.array() });
   }
   //destruturing email & password from body
   const { email, password } = req.body;
@@ -53,29 +54,27 @@ const login = async (req, res) => {
     let user = await User.findOne({ email });
     // if email not exist's
     if (!user) {
-      return res.status(400).json({
+      return sendResponse(res, 400, {
         success,
-        errors: [{ msg: "Please login with correct credentials" }],
+        error: "Please login with correct credentials",
       });
     }
 
-    //compareing passwords by the hashed password of DB.
+    // compareing passwords by the hashed password of DB.
     const passwordCompare = await compare(password, user.password);
     if (!passwordCompare) {
-      return res.status(400).json({
+      return sendResponse(res, 400, {
         success,
-        errors: [{ msg: "Please login with correct credentials" }],
+        errors: [{ msg: "Incorrect Password" }],
       });
     }
-
     //generating auth token
     const authtoken = await user.getAuthToken();
-    const data = { name: user.name, email: user.email };
+    const data = { _id: user._id, name: user.name, email: user.email };
     success = true;
-    res.json({ success, authtoken, user: data });
-  } catch (e) {
-    console.error(e.message);
-    res.status(500).send("An Error Occur");
+    return sendResponse(res, 200, { success, authtoken, data });
+  } catch (error) {
+    return serverError(error, res);
   }
 };
 
