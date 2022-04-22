@@ -17,6 +17,7 @@ const register = async (req, res) => {
   if (!errors.isEmpty()) {
     return sendResponse(res, 400, { success, error: errors.array() });
   }
+  console.log(req);
   try {
     //check if your with same email exists
     const { name, email, password } = req.body;

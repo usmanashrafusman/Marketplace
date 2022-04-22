@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-
+import upload from "./middlewares/uploadImage.js";
 //MongoDB connection Function
 import connetToMongo from "./db.js";
 //Routes for auth
