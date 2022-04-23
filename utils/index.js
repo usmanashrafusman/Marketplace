@@ -3,15 +3,15 @@ import { hash, compare } from "bcrypt";
 // Error Utils
 export const serverError = (error, res) => {
   console.error(error);
-  return res.status(500).send("Internal Server Error");
+  return res.status(500).send({ error: "Internal Server Error" });
 };
 
 export const notAuthorized = (res) => {
-  return res.status(401).send("Not Authorized");
+  return res.status(401).send({ error: "Not Authorized" });
 };
 
 export const badRequest = (res, msg) => {
-  return res.status(400).send(msg);
+  return res.status(400).send(msg ? msg : { error: "Something Went Wrong" });
 };
 
 export const sendResponse = (res, status, data) => {
