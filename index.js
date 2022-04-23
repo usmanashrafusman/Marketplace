@@ -6,6 +6,8 @@ import connetToMongo from "./db.js";
 //Routes for auth
 import authRoutes from "./routes/auth.js";
 
+import imageRoutes from "./routes/auth.js";
+
 // connecting to mongo
 connetToMongo();
 
@@ -23,6 +25,8 @@ app.use(express.json());
 
 // middleware for all routes to api/auth
 app.use("/api/auth", authRoutes);
+
+app.use("/api/images", imageRoutes);
 
 //creating server
 app.listen(port, () => {

@@ -8,7 +8,7 @@ import config from "../config/index.js";
 const conn = mongoose.createConnection(config.MONGOURI, () => {
   console.log("Grid FS Connected");
 });
-let gridfsBucket;
+export let gridfsBucket;
 
 //initilizing gridfsBucket
 conn.once("open", () => {
