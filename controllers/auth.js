@@ -10,6 +10,8 @@ import {
   serverError,
 } from "../utils/index.js";
 
+import config from "../config/index.js";
+
 const register = async (req, res) => {
   let success = false;
   console.log(req.file);
@@ -41,7 +43,7 @@ const register = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      image: user.image,
+      image: `${config.SERVER_URL}/${user.image}`,
     };
     success = true;
     return sendResponse(res, 200, { success, authtoken, data });
@@ -84,7 +86,7 @@ const login = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      image: user.image,
+      image: `${config.SERVER_URL}/${user.image}`,
     };
     success = true;
     return sendResponse(res, 200, { success, authtoken, data });
