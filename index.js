@@ -6,7 +6,7 @@ import connetToMongo from "./db.js";
 //Routes for auth
 import authRoutes from "./routes/auth.js";
 
-import imageRoutes from "./routes/auth.js";
+import imageRoutes from "./routes/images.js";
 
 // connecting to mongo
 connetToMongo();

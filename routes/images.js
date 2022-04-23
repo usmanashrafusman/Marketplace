@@ -2,8 +2,6 @@ import { Router } from "express";
 const router = Router();
 import mongoose from "mongoose";
 import { gridfsBucket } from "../middlewares/uploadImage";
-//retriving image from DB
-router.get("/:id", getRequestedImage);
 
 const getRequestedImage = (req, res) => {
   const { id } = req.params;
@@ -30,3 +28,11 @@ const getRequestedImage = (req, res) => {
     }
   });
 };
+
+//retriving image from DB
+router.get("/", (req, res) => {
+  res.send("Hello From Images Route");
+});
+
+//retriving image from DB
+router.get("/:id", getRequestedImage);
