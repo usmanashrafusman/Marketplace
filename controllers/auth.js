@@ -12,21 +12,23 @@ import {
 
 const register = async (req, res) => {
   let success = false;
+  console.log(req.file);
+  const { name, email, password } = req.body;
+  console.log(name, email, password);
   //if any error occur show error
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return sendResponse(res, 400, { success, error: errors.array() });
   }
-  console.log(req);
   try {
     //check if your with same email exists
-    const { name, email, password } = req.body;
+
     let user = await User.findOne({ email: req.body.email });
     if (user) {
       return badRequest(res, { success, error: "User already exists" });
     }
     //creating user
-    console.log(req);
+
     user = await User.create({
       name,
       email,

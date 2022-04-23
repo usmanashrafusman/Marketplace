@@ -9,7 +9,7 @@ import upload from "../middlewares/uploadImage.js";
 const router = Router();
 
 //Route : 1 Create a user using POST : 'api/auth/register'. Doesn't require auth.
-router.post("/register", signUpValidator, upload.single("file"), register);
+router.post("/register", upload.single("file"), register);
 
 //Route : 2 Logging in a user using POST : 'api/auth/login'. Doesn't require auth.
 router.post("/login", loginValidator, login);

@@ -12,9 +12,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-  },
+  image: Schema.Types.ObjectId,
   email: {
     type: String,
     required: true,
