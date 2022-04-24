@@ -14,7 +14,6 @@ import config from "../config/index.js";
 
 const register = async (req, res) => {
   let success = false;
-  console.log(req.body);
   const { name, email, password } = req.body;
   console.log(name, email, password);
   //if any error occur show error
@@ -35,7 +34,7 @@ const register = async (req, res) => {
       name,
       email,
       password: await hashPassword(password),
-      // image: req.file.id ? req.file.id : "6264fbce5520cdcd07281072",
+      // image: req?.file?.id ? req.file.id : "6264fbce5520cdcd07281072",
       image: "6264fbce5520cdcd07281072",
     });
     //generating token for user using JWT
