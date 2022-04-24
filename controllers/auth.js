@@ -29,6 +29,7 @@ const register = async (req, res) => {
       return badRequest(res, { success, error: "User already exists" });
     }
     //creating user
+    return res.status(200).send({ data: JSON.stringify(req.file) });
     user = await User.create({
       name,
       email,
