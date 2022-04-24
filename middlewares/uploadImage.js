@@ -52,7 +52,8 @@ export const getRequestedImage = (req, res) => {
     if (
       //checking contentType
       file[0].contentType === "image/jpeg" ||
-      file[0].contentType === "img/png"
+      file[0].contentType === "img/png" ||
+      file[0].contentType === "image/png"
     ) {
       //showing image
       const readstream = gridfsBucket.openDownloadStream(file[0]._id);
