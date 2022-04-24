@@ -34,7 +34,7 @@ const register = async (req, res) => {
       name,
       email,
       password: await hashPassword(password),
-      image: req?.file.id ? req.file.id : "6264fbce5520cdcd0728107f",
+      image: req?.file?.id ? req.file.id : "6264fbce5520cdcd07281071",
     });
     //generating token for user using JWT
     const authtoken = await user.getAuthToken();
