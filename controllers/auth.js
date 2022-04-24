@@ -29,12 +29,11 @@ const register = async (req, res) => {
       return badRequest(res, { success, error: "User already exists" });
     }
     //creating user
-
     user = await User.create({
       name,
       email,
       password: await hashPassword(password),
-      image: req?.file?.id ? req.file.id : "6264fbce5520cdcd07281071",
+      image: req?.file ? req.file : "6264fbce5520cdcd07281071",
     });
     //generating token for user using JWT
     const authtoken = await user.getAuthToken();
