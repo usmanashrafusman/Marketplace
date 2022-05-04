@@ -21,7 +21,9 @@ conn.once("open", () => {
 const storage = new GridFsStorage({
   url: config.MONGOURI,
   file: (req, file) => {
-    console.log(file);
+    if (!file) {
+      return (res.file.id = "N/A");
+    }
     return new Promise((resolve, reject) => {
       //generating random string
       crypto.randomBytes(16, (err, buff) => {
