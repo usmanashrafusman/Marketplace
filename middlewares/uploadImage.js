@@ -28,6 +28,7 @@ const storage = new GridFsStorage({
       //generating random string
       crypto.randomBytes(16, (err, buff) => {
         if (err) {
+          res.file = { id: "62723d7a52f58cef581b20d6" };
           return reject(err);
         }
         //giving unique filenamem with extension
