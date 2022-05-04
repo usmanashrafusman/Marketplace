@@ -29,12 +29,11 @@ const register = async (req, res) => {
       return badRequest(res, { success, error: "User already exists" });
     }
     //creating user
-    return res.status(200).send({ data: JSON.stringify(req.body) });
     user = await User.create({
       name,
       email,
       password: await hashPassword(password),
-      image: "N/A",
+      image: req.file?.id ? req.file.id : "N/A",
     });
     //generating token for user using JWT
     const authtoken = await user.getAuthToken();
