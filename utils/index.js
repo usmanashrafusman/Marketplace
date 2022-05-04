@@ -3,7 +3,7 @@ import { hash, compare } from "bcrypt";
 // Error Utils
 export const serverError = (error, res) => {
   console.error(error);
-  return res.status(500).send(error);
+  return res.status(500).send({ error: "Server Error" });
 };
 
 export const notAuthorized = (res) => {
@@ -33,4 +33,11 @@ export const comparePassword = async (password, hashedPassword) => {
       errors: [{ msg: "Incorrect Password" }],
     });
   }
+};
+
+export const userImage = (image) => {
+  if (image) {
+    return image.id;
+  }
+  return "62723d7a52f58cef581b20d6";
 };

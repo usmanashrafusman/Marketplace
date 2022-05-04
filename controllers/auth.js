@@ -8,6 +8,7 @@ import {
   hashPassword,
   badRequest,
   serverError,
+  userImage,
 } from "../utils/index.js";
 
 import config from "../config/index.js";
@@ -33,7 +34,7 @@ const register = async (req, res) => {
       name,
       email,
       password: await hashPassword(password),
-      image: req.file.id,
+      image: userImage(req.file),
     });
     //generating token for user using JWT
     const authtoken = await user.getAuthToken();
@@ -89,7 +90,7 @@ const login = async (req, res) => {
     success = true;
     return sendResponse(res, 200, { success, authtoken, data });
   } catch (error) {
-    return res.send(error);
+    return serverError(error, res);
   }
 };
 
