@@ -39,5 +39,5 @@ export const userImage = (image) => {
   if (image) {
     return image.id;
   }
-  return "62723d7a52f58cef581b20d6";
+  return "62724fd9480717bec70c3d34";
 };
