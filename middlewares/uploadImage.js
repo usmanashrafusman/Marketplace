@@ -22,7 +22,7 @@ const storage = new GridFsStorage({
   url: config.MONGOURI,
   file: (req, file) => {
     if (!file) {
-      return (res.file.id = "N/A");
+      res.file = { id: "62723d7a52f58cef581b20d6" };
     }
     return new Promise((resolve, reject) => {
       //generating random string
