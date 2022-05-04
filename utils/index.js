@@ -3,7 +3,7 @@ import { hash, compare } from "bcrypt";
 // Error Utils
 export const serverError = (error, res) => {
   console.error(error);
-  return res.status(500).send({ error });
+  return res.status(500).send(error);
 };
 
 export const notAuthorized = (res) => {
