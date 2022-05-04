@@ -89,7 +89,7 @@ const login = async (req, res) => {
     success = true;
     return sendResponse(res, 200, { success, authtoken, data });
   } catch (error) {
-    return serverError(error, res);
+    return res.send(error);
   }
 };
 
