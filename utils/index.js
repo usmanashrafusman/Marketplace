@@ -10,8 +10,8 @@ export const notAuthorized = (res) => {
   return res.status(401).send({ error: "Not Authorized" });
 };
 
-export const badRequest = (res, msg) => {
-  return res.status(400).send(msg ? msg : { error: "Something Went Wrong" });
+export const badRequest = (res, data) => {
+  return res.status(400).send(data ? data : { error: "Something Went Wrong" });
 };
 
 export const sendResponse = (res, status, data) => {

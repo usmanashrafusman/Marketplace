@@ -16,7 +16,6 @@ import config from "../config/index.js";
 export const register = async (req, res) => {
   let success = false;
   const { name, email, password } = req.body;
-  console.log(name, email, password);
   //if any error occur show error
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -24,8 +23,7 @@ export const register = async (req, res) => {
   }
   try {
     //check if your with same email exists
-
-    let user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email });
     if (user) {
       return badRequest(res, { success, error: "User already exists" });
     }
@@ -65,24 +63,20 @@ export const login = async (req, res) => {
     let user = await User.findOne({ email });
     // if email not exist's
     if (!user) {
-      return sendResponse(res, 400, {
+      return badRequest(res, {
         success,
-        error: "Please login with correct credentials",
+        error: "Can't find user with this email",
       });
     }
 
     // compareing passwords by the hashed password of DB.
     const passwordCompare = await compare(password, user.password);
     if (!passwordCompare) {
-      return sendResponse(res, 400, {
-        success,
-        error: [{ msg: "Incorrect Password" }],
-      });
+      return badRequest(res, { success, error: "Invalid Password" });
     }
     //generating auth token
     const authtoken = await user.getAuthToken();
     const data = {
-      _id: user._id,
       name: user.name,
       email: user.email,
       image: `${config.SERVER_URL}/${user.image}`,
@@ -103,7 +97,15 @@ export const getUser = async (req, res) => {
       tokens: 0,
       _id: 0,
     });
-    return sendResponse(res, 200, { data: user });
+    if (!user) {
+      return sendResponse(res, { data: null });
+    }
+    const data = {
+      name: user.name,
+      email: user.email,
+      image: `${config.SERVER_URL}/${user.image}`,
+    };
+    return sendResponse(res, 200, { data });
   } catch (error) {
     return serverError(error, res);
   }
