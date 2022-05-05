@@ -13,7 +13,7 @@ import {
 
 import config from "../config/index.js";
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
   let success = false;
   const { name, email, password } = req.body;
   console.log(name, email, password);
@@ -51,7 +51,7 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
   let success = false;
   //if any error occur show error
   const errors = validationResult(req);
@@ -94,4 +94,17 @@ const login = async (req, res) => {
   }
 };
 
-export { login, register };
+export const getUser = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    //getting user data
+    let user = await User.findById(userId).select({
+      password: 0,
+      tokens: 0,
+      _id: 0,
+    });
+    return sendResponse(res, 200, { data: user });
+  } catch (error) {
+    return serverError(error, res);
+  }
+};

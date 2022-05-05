@@ -1,12 +1,9 @@
 import express from "express";
 import cors from "cors";
-import upload from "./middlewares/uploadImage.js";
-//MongoDB connection Function
-import connetToMongo from "./db.js";
-//Routes for auth
-import authRoutes from "./routes/auth.js";
-
-import imageRoutes from "./routes/images.js";
+import upload from "./middlewares/uploadImage.js"; // Upload Image Middleware
+import connetToMongo from "./db.js"; //MongoDB connection Function
+import authRoutes from "./routes/auth.js"; //Routes for auth
+import imageRoutes from "./routes/images.js"; //Routes for images
 
 // connecting to mongo
 connetToMongo();
@@ -16,13 +13,13 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 
+//middleware to use JSON
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("Welcome User");
 });
-
-//middleware to user JSON
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // middleware for all routes to api/auth
 app.use("/api/auth", authRoutes);
