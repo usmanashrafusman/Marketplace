@@ -4,12 +4,12 @@ import upload from "./middlewares/uploadImage.js"; // Upload Image Middleware
 import connetToMongo from "./db.js"; //MongoDB connection Function
 import authRoutes from "./routes/auth.js"; //Routes for auth
 import imageRoutes from "./routes/images.js"; //Routes for images
-
+import productRoutes from "./routes/product.js"; //Routes for images
 // connecting to mongo
 connetToMongo();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 app.use(cors());
 
@@ -23,6 +23,8 @@ app.get("/", (req, res) => {
 
 // middleware for all routes to api/auth
 app.use("/api/auth", authRoutes);
+
+app.use("/api/product", productRoutes);
 
 app.use("/api/images", imageRoutes);
 

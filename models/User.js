@@ -4,19 +4,18 @@ import config from "../config/index.js";
 import jwt from "jsonwebtoken";
 // createing a schema to add user data in db
 
-const userImage =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png";
-
 const UserSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  image: Schema.Types.ObjectId,
   email: {
     type: String,
     required: true,
     unique: true,
+  },
+  image: {
+    type: Schema.Types.ObjectId,
   },
   password: {
     type: String,
@@ -40,8 +39,8 @@ UserSchema.methods.getAuthToken = async function () {
     await this.save();
     return token;
   } catch (error) {
-    return error;
     console.log(error);
+    return error;
   }
 };
 

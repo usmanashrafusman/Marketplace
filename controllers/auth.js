@@ -3,16 +3,11 @@ import { compare } from "bcrypt";
 //UserModel
 import User from "../models/User.js";
 //Utils Fucntions
-import {
-  sendResponse,
-  hashPassword,
-  badRequest,
-  serverError,
-  userImage,
-} from "../utils/index.js";
+import { sendResponse, hashPassword, badRequest, serverError, userImage } from "../utils/index.js";
 
 import config from "../config/index.js";
 
+//Registering a user
 export const register = async (req, res) => {
   let success = false;
   const { name, email, password } = req.body;
@@ -49,6 +44,7 @@ export const register = async (req, res) => {
   }
 };
 
+//Login a user
 export const login = async (req, res) => {
   let success = false;
   //if any error occur show error
@@ -88,6 +84,7 @@ export const login = async (req, res) => {
   }
 };
 
+//Get Log In User Data
 export const getUser = async (req, res) => {
   try {
     const userId = req.user._id;

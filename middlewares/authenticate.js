@@ -1,13 +1,15 @@
 import jwt from "jsonwebtoken";
 import config from "../config/index.js";
+import { notAuthorized } from "../utils/index.js";
 import User from "../models/User.js";
+
 // middleware to get logged in user data
 const authenticate = async (req, res, next) => {
   //getting JWT token from header
   const token = req.header("authorization-token");
   if (!token) {
     //if token is not received
-    res.status(401).send({ error: "Invalid Token" });
+    return notAuthorized(res, "Invalid Token");
   }
   try {
     //verifying token with secrect key
@@ -17,7 +19,7 @@ const authenticate = async (req, res, next) => {
     next();
   } catch (error) {
     //on catch showing error
-    res.status(401).send({ error: "Invalid Token" });
+    return notAuthorized(res, "Invalid Token");
   }
 };
 

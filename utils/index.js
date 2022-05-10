@@ -1,19 +1,22 @@
-import { hash, compare } from "bcrypt";
+import { hash } from "bcrypt";
 
-// Error Utils
+// Server Error Response
 export const serverError = (error, res) => {
   console.error(error);
   return res.status(500).send({ error: "Server Error" });
 };
 
-export const notAuthorized = (res) => {
-  return res.status(401).send({ error: "Not Authorized" });
+//Not Authorized Response
+export const notAuthorized = (res, error) => {
+  return res.status(401).send({ error: error ? error : "Not Authorized" });
 };
 
+//Bad Request Response
 export const badRequest = (res, data) => {
   return res.status(400).send(data ? data : { error: "Something Went Wrong" });
 };
 
+//Send Reponse Function
 export const sendResponse = (res, status, data) => {
   return res.status(status).send(data);
 };
@@ -24,17 +27,7 @@ export const hashPassword = async (password) => {
   return hashed;
 };
 
-// Password Compare
-export const comparePassword = async (password, hashedPassword) => {
-  const passwordCompare = await compare(password, hashedPassword);
-  if (!passwordCompare) {
-    return sendResponse(res, 400, {
-      success,
-      errors: [{ msg: "Incorrect Password" }],
-    });
-  }
-};
-
+//User Placeholder Image
 export const userImage = (image) => {
   if (image) {
     return image.id;

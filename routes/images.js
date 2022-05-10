@@ -1,8 +1,7 @@
 import { Router } from "express";
-const router = Router();
-import mongoose from "mongoose";
 import { getRequestedImage } from "../middlewares/uploadImage.js";
 
+const router = Router();
 //retriving image from DB
 router.get("/:id", getRequestedImage);
 
