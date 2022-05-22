@@ -1,34 +1,37 @@
 import express from "express";
 import cors from "cors";
-import upload from "./middlewares/uploadImage.js"; // Upload Image Middleware
-import connetToMongo from "./db.js"; //MongoDB connection Function
-import authRoutes from "./routes/auth.js"; //Routes for auth
-import imageRoutes from "./routes/images.js"; //Routes for images
-import productRoutes from "./routes/product.js"; //Routes for images
-// connecting to mongo
-connetToMongo();
+import { dbConnector } from "./db.js";
+import authRouter from "./controllers/auth.js";
+import courseRouter from "./controllers/course.js";
+import leavesRouter from "./controllers/leave.js";
+import adminRoutes from "./controllers/admin.js";
+import dotenv from "dotenv";
 
 const app = express();
-const port = process.env.PORT || 8080;
-
-app.use(cors());
-
-//middleware to use JSON
+const dotCon = dotenv.config({ path: "configure.env" });
+// some necessary stuff
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+//connecting to db
+dbConnector();
 
 app.get("/", (req, res) => {
-  res.send("Welcome User");
+  res.send({ message: "App is active" });
 });
 
-// middleware for all routes to api/auth
-app.use("/api/auth", authRoutes);
 
-app.use("/api/product", productRoutes);
+// MAIN ROUTES APIs
+app.use("/auth", authRouter);
+app.use("/course", courseRouter);
+app.use("/admin", adminRoutes);
+app.use("/leaves", leavesRouter);
 
-app.use("/api/images", imageRoutes);
+// App port
+const PORT = 8000;
+// const host = "192.168.120.64"
 
-//creating server
-app.listen(port, () => {
-  console.log(`Backend Server listening at http://localhost:${port}`);
+// activating server
+app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
 });

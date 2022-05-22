@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
-import config from "./config/index.js";
 
-const { connect } = mongoose;
-
-// connecting to Mongo
-const connetToMongo = () => {
-  connect(config.MONGOURI, () => {
-    console.log("Connected To Mongo Sucessfully");
-  });
+export const dbConnector = () => {
+  mongoose.connect(
+    "mongodb+srv://usman:aaa123+++@cluster0.w9dqk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    () => {
+      console.log("Data base conneced Successfully");
+    }
+  );
 };
-
-export default connetToMongo;
